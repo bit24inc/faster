@@ -15,6 +15,7 @@ import { TBILISI_PLACES } from "@/lib/places";
 import type {
   Driver,
   FareEstimate,
+  Locale,
   PaymentMethod,
   Place,
   Ride,
@@ -219,13 +220,13 @@ interface FormProps {
   currentEstimate: FareEstimate | null;
   busy: boolean;
   onRequest: () => void;
-  locale: string;
+  locale: Locale;
   error: string | null;
 }
 
 function RequestForm(p: FormProps) {
   const { t } = useLocale();
-  const intl = intlLocale(p.locale as any);
+  const intl = intlLocale(p.locale);
   return (
     <div className="card p-5 space-y-4">
       <div>
@@ -395,10 +396,10 @@ function ActiveRideCard({
   ride: Ride;
   onCancel: () => void;
   busy: boolean;
-  locale: string;
+  locale: Locale;
 }) {
   const { t } = useLocale();
-  const intl = intlLocale(locale as any);
+  const intl = intlLocale(locale);
   const statusText: Record<string, string> = {
     REQUESTED: t("passenger.searching"),
     ASSIGNED: t("passenger.driver_on_way"),
@@ -483,9 +484,9 @@ function ActiveRideCard({
   );
 }
 
-function CompletedCard({ ride, locale }: { ride: Ride; locale: string }) {
+function CompletedCard({ ride, locale }: { ride: Ride; locale: Locale }) {
   const { t } = useLocale();
-  const intl = intlLocale(locale as any);
+  const intl = intlLocale(locale);
   return (
     <div className="card p-5 space-y-3">
       <div className="text-sm text-ink-400">{t("passenger.thanks")}</div>

@@ -7,8 +7,13 @@ import { MapCanvas } from "@/components/MapCanvas";
 import { usePollingTick } from "@/components/usePolling";
 import { api } from "@/lib/api";
 import { intlLocale } from "@/lib/i18n";
-import { formatDistance, formatGEL } from "@/lib/pricing";
-import type { AuditEntry, Driver, Ride } from "@/lib/types";
+import {
+  formatDistance,
+  formatGEL,
+  tbilisiDateKey,
+  todayInTbilisi,
+} from "@/lib/pricing";
+import type { AuditEntry, Driver, Locale, Ride } from "@/lib/types";
 
 export default function AdminPage() {
   return (
@@ -45,7 +50,7 @@ function Admin() {
 
   const stats = useMemo(() => {
     if (!state) return null;
-    const today = new Date().toISOString().slice(0, 10);
+    const today = todayInTbilisi();
     const active = state.rides.filter((r) =>
       ["REQUESTED", "ASSIGNED", "ARRIVED", "IN_PROGRESS"].includes(r.status),
     );
@@ -53,7 +58,7 @@ function Admin() {
     const completedToday = state.rides.filter(
       (r) =>
         r.status === "COMPLETED" &&
-        (r.completedAt ?? "").slice(0, 10) === today,
+        tbilisiDateKey(r.completedAt) === today,
     );
     const gmv = completedToday.reduce(
       (s, r) => s + (r.finalFareTetri ?? r.estimatedFareTetri),
@@ -148,8 +153,8 @@ function Kpi({
   );
 }
 
-function RidesTable({ rides, locale }: { rides: Ride[]; locale: string }) {
-  const intl = intlLocale(locale as any);
+function RidesTable({ rides, locale }: { rides: Ride[]; locale: Locale }) {
+  const intl = intlLocale(locale);
   if (rides.length === 0) {
     return (
       <div className="card p-5 text-sm text-ink-400">No rides yet.</div>

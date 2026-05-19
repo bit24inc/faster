@@ -17,10 +17,3 @@ export async function api<T = unknown>(
   }
   return res.json() as Promise<T>;
 }
-
-export function usePollingKey(intervalMs: number): number {
-  // Helper around setInterval; the consumer uses the tick as a SWR-style key.
-  // Implemented in components/usePolling.ts; this export kept for clarity.
-  void intervalMs;
-  return 0;
-}

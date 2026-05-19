@@ -12,8 +12,10 @@ import {
   formatDuration,
   formatGEL,
   haversineMeters,
+  tbilisiDateKey,
+  todayInTbilisi,
 } from "@/lib/pricing";
-import type { Driver, Ride } from "@/lib/types";
+import type { Driver, Locale, Ride } from "@/lib/types";
 
 export default function DriverPage() {
   return (
@@ -73,9 +75,10 @@ function DriverPanel() {
     [rides, driver?.isOnline],
   );
 
-  // Earnings today = sum of driverPayoutTetri for COMPLETED rides for this driver today.
+  // Earnings today = sum of driverPayoutTetri for COMPLETED rides for this
+  // driver today. "Today" is the Tbilisi calendar day, not UTC.
   const earnings = useMemo(() => {
-    const today = new Date().toISOString().slice(0, 10);
+    const today = todayInTbilisi();
     let payout = 0;
     let commission = 0;
     let count = 0;
@@ -83,7 +86,7 @@ function DriverPanel() {
       if (
         r.driverId === driverId &&
         r.status === "COMPLETED" &&
-        (r.completedAt ?? "").slice(0, 10) === today
+        tbilisiDateKey(r.completedAt) === today
       ) {
         payout += r.driverPayoutTetri ?? 0;
         commission += r.platformFeeTetri ?? 0;
@@ -328,10 +331,10 @@ function PendingRequests({
   requests, driver, busy, onAccept, locale,
 }: {
   requests: Ride[]; driver: Driver | undefined; busy: boolean;
-  onAccept: (r: Ride) => void; locale: string;
+  onAccept: (r: Ride) => void; locale: Locale;
 }) {
   const { t } = useLocale();
-  const intl = intlLocale(locale as any);
+  const intl = intlLocale(locale);
 
   if (!driver?.isOnline) {
     return (
@@ -415,11 +418,11 @@ function PendingRequests({
 function ActiveRideForDriver({
   ride, driver, busy, locale, onAdvance,
 }: {
-  ride: Ride; driver: Driver; busy: boolean; locale: string;
+  ride: Ride; driver: Driver; busy: boolean; locale: Locale;
   onAdvance: (a: "arrive" | "start" | "complete" | "cancel") => void;
 }) {
   const { t } = useLocale();
-  const intl = intlLocale(locale as any);
+  const intl = intlLocale(locale);
 
   return (
     <div className="card p-5 space-y-4">

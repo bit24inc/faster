@@ -189,10 +189,3 @@ export function activeRideForDriver(driverId: string): Ride | undefined {
   );
 }
 
-export function pendingRequestsForDriver(driverId: string): Ride[] {
-  // For the prototype, every online driver sees REQUESTED rides whose
-  // pickup is within ~6 km of them. Production: H3 cell match + ranking.
-  const driver = getDriver(driverId);
-  if (!driver || !driver.isOnline) return [];
-  return listRides().filter((r) => r.status === "REQUESTED");
-}

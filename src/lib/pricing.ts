@@ -90,3 +90,21 @@ export function formatDuration(seconds: number): string {
   const m = min % 60;
   return `${h}h ${m}m`;
 }
+
+// "Today" in the Tbilisi timezone, regardless of the runtime's local zone.
+// DB stores UTC; UI bucketing must convert. Used by driver earnings and
+// admin KPIs to avoid the UTC-midnight rollover bug.
+export function tbilisiDateKey(iso: string | null | undefined): string {
+  if (!iso) return "";
+  // sv-SE gives a YYYY-MM-DD format, and we force the zone explicitly.
+  return new Intl.DateTimeFormat("sv-SE", {
+    timeZone: "Asia/Tbilisi",
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(new Date(iso));
+}
+
+export function todayInTbilisi(): string {
+  return tbilisiDateKey(new Date().toISOString());
+}

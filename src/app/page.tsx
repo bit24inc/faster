@@ -18,8 +18,8 @@ function Home() {
     <main className="min-h-screen">
       <Header />
       <section className="mx-auto max-w-5xl px-6 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <Hero title={t("app.tagline")} />
+        <Hero title={t("app.tagline")} />
+        <div className="mt-4 grid grid-cols-1 md:grid-cols-3 gap-4">
           <RoleCard
             href="/passenger"
             title={t("role.passenger")}
@@ -67,18 +67,18 @@ function Home() {
 
 function Hero({ title }: { title: string }) {
   return (
-    <div className="card p-6 md:row-span-2 md:col-span-1 flex flex-col justify-between">
-      <div>
+    <div className="card p-6 md:p-8 flex flex-col md:flex-row md:items-end md:justify-between gap-6">
+      <div className="max-w-2xl">
         <div className="label">Tbilisi · MVP prototype</div>
-        <h1 className="mt-2 text-3xl font-bold text-white leading-tight">
+        <h1 className="mt-2 text-3xl md:text-4xl font-bold text-white leading-tight">
           {title}
         </h1>
         <p className="mt-3 text-sm text-ink-200">
-          Two-sided ride-hailing prototype following the locked architecture from the TZ:
-          passenger app, driver app, dispatch and pricing.
+          Two-sided ride-hailing prototype following the locked architecture
+          from the TZ: passenger app, driver app, dispatch and pricing.
         </p>
       </div>
-      <div className="mt-6 flex flex-wrap gap-2">
+      <div className="flex flex-wrap gap-2">
         <span className="chip">PostGIS-ready domain</span>
         <span className="chip">Tetri integer money</span>
         <span className="chip">Pro 4% commission</span>
