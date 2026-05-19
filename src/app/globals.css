@@ -1,0 +1,57 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+}
+
+html, body {
+  height: 100%;
+}
+
+body {
+  background: radial-gradient(1100px 700px at 20% -10%, #0f2a23 0%, #0b1220 60%, #060912 100%);
+  color: #e5e7eb;
+  font-family: ui-sans-serif, system-ui, "Inter", "Segoe UI", Roboto, sans-serif;
+  min-height: 100%;
+}
+
+.card {
+  @apply rounded-2xl border border-white/10 bg-white/5 backdrop-blur-sm shadow-xl shadow-black/20;
+}
+
+.btn {
+  @apply inline-flex items-center justify-center gap-2 rounded-xl px-4 py-2.5
+         text-sm font-medium transition-colors disabled:opacity-50
+         disabled:cursor-not-allowed;
+}
+.btn-primary {
+  @apply btn bg-brand-500 text-ink-900 hover:bg-brand-400;
+}
+.btn-ghost {
+  @apply btn bg-white/5 text-white hover:bg-white/10 border border-white/10;
+}
+.btn-danger {
+  @apply btn bg-red-500/90 text-white hover:bg-red-500;
+}
+
+.chip {
+  @apply inline-flex items-center gap-1 rounded-full border border-white/15
+         bg-white/5 px-2.5 py-1 text-xs text-ink-200;
+}
+
+.label {
+  @apply text-xs uppercase tracking-wider text-ink-400;
+}
+
+input.field, select.field, textarea.field {
+  @apply w-full rounded-xl border border-white/10 bg-white/5 px-3 py-2
+         text-sm text-white placeholder-ink-400 outline-none
+         focus:border-brand-500/60 focus:ring-2 focus:ring-brand-500/20;
+}
+
+.kbd {
+  @apply rounded border border-white/15 bg-white/10 px-1.5 py-0.5 text-[10px]
+         text-ink-200 font-mono;
+}
